@@ -1,0 +1,4 @@
+Package: kddClub
+Title: Research Group on Knowledge Discovery and Data Mining
+Version: 0.0.1
+Imports: rmarkdown
