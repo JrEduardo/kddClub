@@ -1,0 +1,35 @@
+% Programa de atividades
+
+As atividades do grupo se resumem a leitura, apresentação e discussão de
+papers apresentados no KDD Coference 2016. Todos os papers do KDD
+possuem vídeos explicativos curtos que auxiliaram o entendimento e
+apresentação do paper.
+
+O formato da reunião de discussão será em blocos de 30 minutos de
+apresentação e 30 minutos de discussão. Toda reunião terá um Locutor
+(_Speaker_), que será responsável pela apresentação do paper e um
+Revisor (_Reviewer_) que será responsável pela condução da
+discussão. Sugere-se que os _speakers_ utilizem os slides originais dos
+autores, quando possível.
+
+Lembre-se que um dos objetivos do grupo também é elaboração de trabalhos
+para próximos eventos. Portanto procure sempre realizar uma leitura
+crítica dos artigos no sentido de encontrar lacunas a serem preenchidas
+ou ainda ideias originais que possam resolver problemas ainda
+irresolvíveis.
+
+Abaixo têm-se o histórico e agenda do grupo para esse semestre.
+
+```{r echo=FALSE}
+
+## Spreadsheet GoogleDocs address
+url <- paste0("https://docs.google.com/spreadsheets/d/",
+              "16bnTTDO6HZTfxC0jV0G9KigMDBgPzDbsjVouAsTxdjk/",
+              "export?format=tsv")
+
+## Read it
+da <- read.table(url, header = TRUE, sep = "\t")
+
+knitr::kable(da)
+
+```
