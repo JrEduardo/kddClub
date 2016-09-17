@@ -1,0 +1,21 @@
+name: "kddClub"
+output_dir: "_KDDSITE"
+output:
+  html_document:
+    theme: yeti
+    highlight: tango
+    css: style_.css
+    includes:
+        before_body: before_.html
+        after_body: after_.html
+navbar:
+  title: ""
+  right:
+    - text: Home
+      href: .
+    - text: Program
+      href: program.html
+    - text: About
+      href: about.html
+    - icon: fa-github-alt fa-lg
+      href: .

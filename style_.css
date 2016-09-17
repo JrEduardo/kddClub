@@ -1,0 +1,160 @@
+/*------------------------------------------- */
+/* Texto geral */
+body {
+    font-size: 16px;
+    color: black;
+    text-align: justify;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: bold;
+}
+
+h1.title {
+    text-align: center;
+    line-height: 1;
+}
+
+h3.subtitle {
+    text-align: center;
+}
+
+h4.author {
+    text-align: center;
+}
+
+h4.date {
+    text-align: center;
+}
+
+/*------------------------------------------- */
+/* Tabelas */
+table {
+    font-size: 14px;
+    /* page-break-before: always; */
+    /* display: table; */
+    /* float: left; */
+    /* margin: auto; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: none;
+    border-top: 2px solid #333333;
+    border-bottom: 2px solid #333333;
+    border-left: 0px;
+    border-right: 0px;
+    /* border-collapse: separate; */
+    border-collapse: collapse;
+}
+
+tr.header {
+    border-bottom: 3px solid #333333;
+}
+
+table.none {
+    border-top: 0px solid #333333;
+    border-bottom: 0px solid #333333;
+}
+
+table.wide {
+    width: 95%;
+}
+
+th, td, tr {
+    color: #000000;
+    border-bottom: 0px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 0px;
+}
+
+th {
+    border-bottom: 1px solid #333333;
+}
+
+th.none {
+    border-bottom: 0px solid #333333;
+}
+
+/*------------------------------------------- */
+/* Utilitários */
+
+/* Duas colunas - use id={"left", "right"}*/
+#col-left{
+    width: 50%;
+    height: 300px;
+    float: left;
+}
+
+#col-right{
+    width: 50%;
+    height: 400px;
+    float: left;
+}
+
+/*------------------------------------------- */
+/* Barra de navegação */
+.navbar {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.navbar-default {
+    /* background-image: url("backnav.gif"); */
+    background-color: #162A4B;
+    border-color: #162A4B;
+    /* height: 300px */
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}
+
+.back-image {
+    width: 100vw;
+    position: relative;
+    margin-left: -50vw;
+    height: 220px;
+    margin-bottom: 50px;
+    left: 50%;
+    background-image: url("images/backnav.gif");
+    background-position:50% 50%;
+    background-size:cover;
+}
+
+.back-text {
+    margin-left: 80px;
+    font-size: 3.2em;
+    text-align: left;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    line-height: 0.8;
+    background-color: transparent;
+    color: white;
+}
+
+/*------------------------------------------- */
+/* Rodapé */
+.myfooter {
+    width: 100vw;
+    position: relative;
+    margin-left: -50vw;
+    height: 80px;
+    margin-bottom: 50px;
+    left: 50%;
+    background-color: #162A4B;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    font-size: 0.8em;
+    color: #777;
+}
