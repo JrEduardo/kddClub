@@ -119,12 +119,17 @@ th.none {
     font-weight: bold;
 }
 
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 .back-image {
     width: 100vw;
     position: relative;
     margin-left: -50vw;
     height: 220px;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     left: 50%;
     background-image: url("images/backnav.gif");
     background-position:50% 50%;
