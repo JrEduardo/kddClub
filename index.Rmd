@@ -2,6 +2,6 @@
 
 ```{r echo=FALSE, results="asis"}
 
-cat(readLines("README.md")[-1], sep = "\n")
+cat(readLines("README.md")[-(1:3)], sep = "\n")
 
 ```

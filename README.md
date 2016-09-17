@@ -1,5 +1,7 @@
 # KDD Journal Club #
 
+[![Build Status](https://travis-ci.org/JrEduardo/kddClub.svg)](https://travis-ci.org/JrEduardo/kddClub)
+
 [KDD Journal Club] é um grupo de estudos com interesse em Knowledge
 Discovery, Data mining, Text mining e Machine Learning. O grupo foi
 criado pela iniciativa dos professores [Pedro Vaz de Melo] e
