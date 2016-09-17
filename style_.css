@@ -154,11 +154,10 @@ th.none {
     position: relative;
     margin-left: -50vw;
     height: 80px;
-    margin-bottom: 50px;
+    margin-bottom: -40px;
+    margin-top: 50px;
     left: 50%;
     background-color: #162A4B;
-    margin-top: 50px;
-    margin-bottom: 50px;
     text-align: center;
     font-size: 0.8em;
     color: #777;
