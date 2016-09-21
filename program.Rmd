@@ -30,6 +30,20 @@ url <- paste0("https://docs.google.com/spreadsheets/d/",
 ## Read it
 da <- read.table(url, header = TRUE, sep = "\t")
 
+## Add slides link
+links <- sapply(1:nrow(da), function(x) {
+    files <- dir("./presentations/")
+    press <- grep(paste0("^pres-", x, ".*$"), files, value = TRUE)
+    if (length(press) > 0) {
+        paste(paste0("[", press, "]", "(./presentations/", press, ")"),
+              collapse = " | ")
+    } else {
+        ""
+    }
+})
+da$Slide <- links
+
+## Build table
 knitr::kable(da)
 
 ```
