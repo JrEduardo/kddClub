@@ -42,7 +42,12 @@ str(abstracts[[1]])
 cat(paste0(rep("@@", 40), collapse = ""), sep = "\n")
 text <- abstracts[[1]]
 textdoc <- Corpus(VectorSource(text))
-str(textdoc)
+textdoc %>%
+    tm_map(removeWords, stopwords("english")) %>%
+    tm_map(removePunctuation) %>%
+    tm_map(stripWhitespace) %>%
+    tm_map(removeNumbers) %>%
+    tm_map(stemDocument)
 
 ## ma <- text2matrix(abstracts[[1]])
 ## str(ma)
