@@ -155,13 +155,15 @@ write.table(papers, "./data/papers.txt", sep = ";",
 
 ## Análise descritiva ##
 
-```{r, eval=TRUE, echo=FALSE}
+```{r data, eval=TRUE, echo=FALSE}
 
 ## Load the data
 topics <- read.table("./data/topics.txt", header = TRUE, sep = ";",
                      stringsAsFactors = FALSE)
 papers <- read.table("./data/papers.txt", header = TRUE, sep = ";",
                      stringsAsFactors = FALSE)
+ls()
+abstracts <- with(papers, split(abstract, topic))
 
 ```
 
