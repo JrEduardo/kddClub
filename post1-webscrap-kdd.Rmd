@@ -155,35 +155,13 @@ write.table(papers, "./data/papers.txt", sep = ";",
 
 ## Análise descritiva ##
 
-```{r data, eval=TRUE, echo=FALSE}
+```{r, eval=TRUE, echo=FALSE}
 
 ## Load the data
 topics <- read.table("./data/topics.txt", header = TRUE, sep = ";",
                      stringsAsFactors = FALSE)
 papers <- read.table("./data/papers.txt", header = TRUE, sep = ";",
                      stringsAsFactors = FALSE)
-ls()
-abstracts <- with(papers, split(abstract, topic))
-
-library(tm)
-higienize <- function(doc) {
-    doc %>%
-        tm_map(removeWords, stopwords("english")) %>%
-        tm_map(removePunctuation) %>%
-        tm_map(stripWhitespace) %>%
-        tm_map(removeNumbers) %>%
-        tm_map(stemDocument)
-}
-text2matrix <- function(text) {
-    ## Create Corpus
-    textdoc <- Corpus(VectorSource(text))
-    textdoc <- higienize(textdoc)
-    ## Document Term Matrix
-    textdtm <- DocumentTermMatrix(textdoc)
-    as.matrix(textdtm)
-}
-
-ma <- text2matrix(abstracts[[1]])
 
 ```
 
