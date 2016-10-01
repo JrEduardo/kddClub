@@ -1,7 +1,6 @@
 ##======================================================================
 ## Opções gerais do knitr
 library(knitr)
-library(xtable)
 opts_chunk$set(
     warning = FALSE,
     message = FALSE,
