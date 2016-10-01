@@ -4,7 +4,10 @@ topics <- read.table("./data/topics.txt", header = TRUE, sep = ";",
 papers <- read.table("./data/papers.txt", header = TRUE, sep = ";",
                      stringsAsFactors = FALSE)
 
+cat(paste0(rep("@@", 40), collapse = ""), sep = "\n")
 str(topics)
+
+cat(paste0(rep("@@", 40), collapse = ""), sep = "\n")
 str(papers)
 
 library(tm)
@@ -27,10 +30,19 @@ text2matrix <- function(text) {
     as.matrix(textdtm)
 }
 
+cat(paste0(rep("@@", 40), collapse = ""), sep = "\n")
 abstracts <- with(papers, split(abstract, topic))
 
+cat(paste0(rep("@@", 40), collapse = ""), sep = "\n")
 str(abstracts)
+
+cat(paste0(rep("@@", 40), collapse = ""), sep = "\n")
 str(abstracts[[1]])
 
-ma <- text2matrix(abstracts[[1]])
-str(ma)
+cat(paste0(rep("@@", 40), collapse = ""), sep = "\n")
+text <- abstracts[[1]]
+textdoc <- Corpus(VectorSource(text))
+str(textdoc)
+
+## ma <- text2matrix(abstracts[[1]])
+## str(ma)
