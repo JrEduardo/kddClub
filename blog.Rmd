@@ -1,0 +1,19 @@
+% KDD Blog
+
+Esse é o blog do KDD Journal Club. Algumas matérias desenvolvidas pelos
+integrantes do grupo que tiverem relação com os temas estudados serão
+mantidas aqui. Abaixo temos a lista de _posts_ já publicado pelo grupo,
+explore e deixe sua sugestão, crítica ou elogio.
+
+
+```{r, echo=FALSE, results="asis"}
+
+## Read files and select the posts
+x <- dir()
+posts <- grep("^(post[0-9]+.*)\\.Rmd$", x, value = TRUE)
+posts <- gsub(".Rmd", ".html", posts)
+
+## Write links in markdown format
+cat(paste0(" * [", posts, "](./", posts, ")"), sep = "\n")
+
+```

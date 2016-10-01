@@ -17,5 +17,7 @@ navbar:
       href: program.html
     - text: About
       href: about.html
+    - text: Blog
+      href: blog.html
     - icon: fa-github-alt fa-lg
       href: https://github.com/JrEduardo/kddClub
