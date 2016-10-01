@@ -3,7 +3,9 @@
 As atividades do grupo se resumem a leitura, apresentação e discussão de
 papers apresentados no KDD Coference 2016. Todos os papers do KDD
 possuem vídeos explicativos curtos que auxiliaram o entendimento e
-apresentação do paper.
+apresentação do paper. As reuniões ocorrem todas as sextas-feiras às
+10h30 na sala 2014 do ICEX
+([ver mapa](https://goo.gl/maps/WZSwAn1tSv42)).
 
 O formato da reunião de discussão será em blocos de 30 minutos de
 apresentação e 30 minutos de discussão. Toda reunião terá um Locutor

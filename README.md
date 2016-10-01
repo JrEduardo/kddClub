@@ -8,11 +8,13 @@ criado pela iniciativa dos professores [Pedro Vaz de Melo][pedro] e
 [Renato Assunção][renato] do Departamento de Ciências da Computação da
 UFMG e teve o início de suas atividades em setembro de 2016.
 
-Neste semestre o grupo se organiza semenalmente para apresentação e
-discussão de papers apresentados na edição de 2016 da maior conferência
-anual de KDD a [SIGKDD Conference][SIGKDD] organizado por um grupo de
-interesse em Knowledge Discovery and Data Mining da Association for
-Computing Machinery (ACM). Os principais objetivos do grupo são:
+Neste semestre o grupo se reune todas as sextas-feiras às 10h30 na sala
+2014 do ICEX ([ver mapa](https://goo.gl/maps/WZSwAn1tSv42)) para
+apresentação e discussão de papers apresentados na edição de 2016 da
+maior conferência anual de KDD a [SIGKDD Conference][SIGKDD] organizado
+por um grupo de interesse em Knowledge Discovery and Data Mining da
+Association for Computing Machinery (ACM).  Os principais objetivos do
+grupo são:
 
 1. Aprender e acompanhar as novidades apresentadas nestes eventos de
    primeira linha;
