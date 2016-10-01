@@ -9,4 +9,5 @@ Imports:
   plyr,
   tm,
   wordcloud,
-  dendextend
+  dendextend,
+  SnowballC
