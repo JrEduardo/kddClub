@@ -28,6 +28,11 @@ h4.date {
     text-align: center;
 }
 
+.caption {
+    color: #777;
+    font-size: 0.9em;
+}
+
 /*------------------------------------------- */
 /* Tabelas */
 table {
