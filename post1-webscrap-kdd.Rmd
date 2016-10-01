@@ -165,6 +165,26 @@ papers <- read.table("./data/papers.txt", header = TRUE, sep = ";",
 ls()
 abstracts <- with(papers, split(abstract, topic))
 
+library(tm)
+higienize <- function(doc) {
+    doc %>%
+        tm_map(removeWords, stopwords("english")) %>%
+        tm_map(removePunctuation) %>%
+        tm_map(stripWhitespace) %>%
+        tm_map(removeNumbers) %>%
+        tm_map(stemDocument)
+}
+text2matrix <- function(text) {
+    ## Create Corpus
+    textdoc <- Corpus(VectorSource(text))
+    textdoc <- higienize(textdoc)
+    ## Document Term Matrix
+    textdtm <- DocumentTermMatrix(textdoc)
+    as.matrix(textdtm)
+}
+
+ma <- text2matrix(abstracts[[1]])
+
 ```
 
 Com os dados obtidos diversas análises podem ser realizadas, baixe o
