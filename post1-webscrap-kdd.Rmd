@@ -1,0 +1,292 @@
+% Web Scraping dos Papers do SIGKDD 2016
+% Eduardo E. R. Junior
+
+```{r setup, eval=TRUE, include=FALSE}
+
+source("_setup.R")
+opts_chunk$set(eval = FALSE)
+library(rvest)
+library(plyr)
+
+```
+
+## Extração de dados ##
+
+Mineração ou extração de dados da Web é uma prática bastante comum para
+cientistas da computação e, recentemente, tem despertado um interesse na
+comunidade Estatística também. É fácil de notar o motivo disso, pois há
+muitos dados dispostos em páginas na Web, o que pode, com uma devida
+análise, trazer informação relevante em problemas práticos.
+
+Recentemente tive o interesse de saber do que se tratam os _papers_ que
+foram apresentados no [SIGKDD 2016](http://www.kdd.org/kdd2016/). Então,
+como os dados (tópicos, títulos e resumos) dos _papers_ estão
+disponíveis no sítio eletrônico do evento resolvi extrair esses dados. O
+grande desafio aqui é saber como essas informações se encaixam no
+arquivo-fonte da página e como extraí-las.
+
+Felizmente em R, linguagem e ambiente para computação estatística e
+gráfica com a qual estou ambientado, existem pacotes (conjunto de
+funções) já implementadas que tornam essa tarefa mais simples. Aqui
+faremos uso do pacote
+[`rvest`](https://CRAN.R-project.org/package=rvest), para extrair dados
+de páginas web e [`plyr`]( https://CRAN.R-project.org/package=plyr) para
+manipulação dos dados, ambos de autoria de
+[Hadley Wickham](github.com/hadley).
+
+```{r}
+
+##----------------------------------------------------------------------
+## Load the packages
+library(rvest)
+library(plyr)
+
+```
+
+Primeiramente para extrair os dados, investiguei a página inicial dos
+_papers_ do KDD, [KDD Topics](http://www.kdd.org/kdd2016/topics). Desta
+página, o código abaixo extrai o nome dos tópicos considerados (chamado
+de `title`), seu organizador (`chair`) e o resumo do tópico
+(`abstract`). Você pode fazer o _download_ do conjunto de textos
+extraídos pelo [link](./data/topics.txt) ou excutar a sequência de
+comandos exibidos para obter os dados.
+
+```{r}
+
+##----------------------------------------------------------------------
+## Read the topics with title, organizer and abstract
+
+## Save the html page
+url <- "http://www.kdd.org/kdd2016/topics"
+topicshtml <- url %>% read_html
+
+## Get interesting nodes
+titles <- topicshtml %>% html_nodes("h4 strong") %>% html_text
+paragraphs <- topicshtml %>% html_nodes("blockquote p") %>% html_text
+chairs <- paragraphs[seq(1, by = 4, length.out = length(titles))] %>%
+    gsub(pattern = ".+: (.+)$", replacement = "\\1")
+abstracts <- paragraphs[seq(3, by = 4, length.out = length(titles))]
+
+## Organize the text topics into data.frame
+topics <- data.frame(
+    topics = titles,
+    chairs = chairs,
+    abstracts = abstracts,
+    stringsAsFactors = FALSE
+)
+
+## Export to txt file
+write.table(topics, "./data/topics.txt", sep = ";",
+            row.names = FALSE)
+
+```
+
+Os tópicos e seus respectivos resumos já dão uma boa noção de quais
+assuntos espera-se que sejam abordados no evento. Todavia é de interesse
+que se tenha uma análise mais abrangente ou efetiva desses assuntos. Sob
+essa perpectiva, investiguei o sítio do evento a fim de obter os títulos
+e resumos de todos os _papers_ apresentados. Para fazer essa extração é
+necessário acessar as páginas do tópico, veja por exemplo a página do
+tópico
+[_Clustering_](http://www.kdd.org/kdd2016/topics/view/clustering), para
+obter a lista de _papers_ indexados sob esse tópico e para cada elemento
+da lista acessar a página de exibição do _paper_, por exemplo a página
+[_Efficient Frequent Directions Algorithm for Sparse Matrices_](http://www.kdd.org/kdd2016/subtopic/view/efficient-frequent-directions-algorithm-for-sparse-matrices/662/),
+e desta página acessar o texto referente ao resumo do paper. Para
+realizar esse procedimento os comandos abaixo fazem bom uso da
+característica vetorial do _software_ R, utilizando os comandos da
+família `apply`. Novamente os textos referentes a cada resumo, com as
+informações i) tópico a qual o _paper_ pertence, ii) título do _paper_
+(`title`) e iii) texto do resumo (`abstract`) estão disponíveis em
+arquivo `txt` ([link](./data/papers.txt)), mas esse mesmo conjunto pode
+ser obtido ao executar a sequência de comandos abaixo.
+
+```{r}
+
+##----------------------------------------------------------------------
+## Read the abstracts subtopics in each topics
+
+## Links of the topics page
+links <- topicshtml %>%
+    html_nodes("blockquote a") %>%
+    html_attr("href") %>%
+    unique
+
+## Attribute names to link
+names(links) <- sapply(links, function(x) {
+    gsub("^.*view/(.*)$", "\\1", x)
+}, USE.NAMES = FALSE)
+
+## Extract the abstracts (this part is a little slow)
+abstracts <- lapply(links, function(page_topics) {
+    page_topics_html <- page_topics %>% read_html
+    links <- page_topics_html %>%
+        html_nodes("strong a") %>%
+        html_attr("href")
+    title <- page_topics_html %>%
+        html_nodes("strong a span") %>%
+        html_text
+    texto <- sapply(links, function(page_paper) {
+        ps <- page_paper %>%
+            read_html %>%
+            html_nodes("section p") %>%
+            html_text
+        ps[3] ## The abstract is in third position
+    })
+    ma <- cbind(title, texto)
+    dimnames(ma) <- NULL
+    ma
+})
+
+## Organize texts into data.frame
+papers <- ldply(abstracts, .id = "topic")
+names(papers) <- c("topic", "title", "abstract")
+papers <- transform(
+    papers,
+    title = as.character(title),
+    abstract = as.character(abstract)
+)
+
+## Export to txt file
+write.table(papers, "./data/papers.txt", sep = ";",
+            row.names = FALSE)
+
+```
+
+## Análise descritiva ##
+
+```{r, eval=TRUE, echo=FALSE}
+
+## Load the data
+topics <- read.table("./data/topics.txt", header = TRUE, sep = ";",
+                     stringsAsFactors = FALSE)
+papers <- read.table("./data/papers.txt", header = TRUE, sep = ";",
+                     stringsAsFactors = FALSE)
+
+```
+
+Com os dados obtidos diversas análises podem ser realizadas, baixe o
+conjunto de dados e seja criativo. Foram `r nrow(papers)` _papers_
+extraídos. Aqui exibo apenas uma simples análise descritiva como
+motivação. Para tal análise faz-se uso dos pacotes
+[`tm`](https://CRAN.R-project.org/package=tm), para
+manipulação/mineração dos textos e dos pacotes
+[`lattice`](https://CRAN.R-project.org/package=lattice),
+[`latticeExtra`](https://CRAN.R-project.org/package=latticeExtra),
+[`wordcloud`]([`lattice`](https://CRAN.R-project.org/package=wordcloud))
+e [`dendextend`](https://CRAN.R-project.org/package=dendextend) para
+exibição gráfica.
+
+```{r, eval=TRUE, fig.height=20, fig.width=10, fig.cap="Frequências de 2\\% das palavras mais comuns nos resumos em cada tópico do KDD2016"}
+
+##----------------------------------------------------------------------
+## Useful functions
+
+library(tm)
+higienize <- function(doc) {
+    doc %>%
+        tm_map(removeWords, stopwords("english")) %>%
+        tm_map(removePunctuation) %>%
+        tm_map(stripWhitespace) %>%
+        tm_map(removeNumbers) %>%
+        tm_map(stemDocument)
+}
+text2matrix <- function(text) {
+    ## Create Corpus
+    textdoc <- Corpus(VectorSource(text))
+    textdoc <- higienize(textdoc)
+    ## Document Term Matrix
+    textdtm <- DocumentTermMatrix(textdoc)
+    as.matrix(textdtm)
+}
+
+##----------------------------------------------------------------------
+## Simple analysis of the texts
+
+abstracts <- with(papers, split(abstract, topic))
+words <- lapply(abstracts, function(textos) {
+    ma <- text2matrix(textos)
+    ## Count words occurs
+    freqs <- sort(colSums(ma), decreasing = TRUE)
+    ## Select only 1% of the most common words
+    corte <- quantile(freqs, probs = 0.98)
+    ## Show in barchart
+    data.frame(co = freqs[freqs > corte],
+               na = names(freqs)[freqs > corte])
+})
+
+## Organize texts into data.frame
+words <- ldply(words, .id = "topic")
+words$x <- with(words, tapply(co, topic, length)) %>%
+    lapply(FUN = function(x) 1:x) %>%
+    do.call(what = c)
+str(words)
+
+## Show the frequency chart
+library(lattice)
+library(latticeExtra)
+barchart(x ~ co | topic,
+         data = words,
+         as.table = TRUE,
+         layout = c(3, NA),
+         axis = axis.grid,
+         border = rgb(.5, .5, .5, 0.5),
+         col = rgb(.8, .8, .8, 0.5),
+         xlab = "Frequência absoluta das palavras",
+         ylab = NULL,
+         scales = list(relation = "free",
+                       y = list(draw = FALSE)),
+         between = list(x = 0.5),
+         prepanel = function(x, subscripts) {
+             x <- as.numeric(x[subscripts])
+             mx <- max(x[subscripts])
+             list(xlim = c(0.2, mx))
+         },
+         panel = function(x, y, subscripts, ...) {
+             panel.barchart(x, y, ...)
+             panel.text(x, y, x, cex = 0.7, adj = 0, font = "bold")
+             panel.text(x/2, y, words$na[subscripts], cex = 0.8)
+         })
+
+```
+
+```{r, eval=TRUE, fig.cap="Nuvem de 10% das palavras mais comum em todos os resumos dos papers."}
+
+## Wordcloud for 10% of the words most common in abstracts
+textos <- unlist(abstracts, use.names = FALSE)
+ma <- text2matrix(textos)
+counts <- colSums(ma)
+corte <- quantile(counts, probs = 0.9)
+
+paleta <- brewer.pal(9, "Blues")[-(1:4)]
+library(wordcloud)
+wordcloud(words = names(counts)[counts > corte],
+          freq = counts[counts > corte],
+          min.freq = 5,
+          random.order = F,
+          colors = paleta,
+          family = "serif")
+
+```
+
+```{r, eval=TRUE, fig.height=10, fig.width=10, fig.cap="Agrupamento hierárquico entre as palavras 2% mais comuns nos resumos."}
+
+## Grouping 10% most common words
+k = 3 ## Decisão não automatizada, para agrupamento herárquico
+corte <- quantile(counts, probs = 0.98)
+mdist <- dist(scale(t(ma[, colSums(ma) > corte])))
+agrup <- hclust(mdist, method = "ward.D")
+
+## Build and show the dendogram
+library(dendextend)
+agrup <- t(ma[, colSums(ma) > corte])  %>%
+    scale  %>%
+    dist %>%
+    hclust(method = "ward.D") %>%
+    as.dendrogram
+
+agrup %>% color_branches(k = k) %>% plot(horiz = TRUE)
+agrup %>% rect.dendrogram(k = 3, horiz = TRUE, lty = 2,
+                          border = "gray30")
+
+```
